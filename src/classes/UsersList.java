@@ -1,44 +1,65 @@
 package classes;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class UsersList {
-    Map<String, User> map;
+    private ArrayList<User> users;
 
     public UsersList() {
-        this.map = new HashMap<String, User>();
+        users = new ArrayList<>();
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
     }
 
     public boolean add(User user) {
-        if(map.containsKey(user.login)){
-            return false;
+        for (User user1 : users) {
+            if (user1.getLogin().equals(user.getLogin())) {
+                return false;
+            }
         }
-        return this.map.put(user.login, user) == null ? false : true;
+        users.add(user);
+        return true;
     }
 
-    // todo remove user
-    public boolean remove(String login){
-        if((map.containsKey(login))){
-            map.remove(login);
+    public boolean removeUser(User user) {
+        if (users.contains(user)) {
+            users.remove(user);
         }
         return false;
     }
 
-    //todo search user by login
-    public User search(String login){
-        /*if(this.map.get(login)==null){
-            System.out.println("User not found");
-        }*/
-        return this.map.get(login);
+    // todo remove user by login or name
+    public boolean removeUser(String value) {
+        for (User user1 : users) {
+            if (user1.getLogin().equals(value) || user1.getName().equals(value)) {
+                return users.remove(user1);
+            }
+        }
+        return false;
     }
 
+    //todo find user by login or name
+    public String find(String value) {
+
+        for (User user1 : users) {
+            if (user1.getLogin().equals(value) || user1.getName().equals(value)) {
+                return user1.toString();
+            }
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
-        String result = "";
-        for (User user : map.values()) {
-            result += user+System.lineSeparator();
+        String result = "UsersList" + System.lineSeparator();
+        for (User user : users) {
+            result += user + System.lineSeparator();
         }
         return result;
     }
